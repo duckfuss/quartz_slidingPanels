@@ -6,8 +6,16 @@ import type {
   ProcessedContent,
   QuartzPluginData,
 } from "@quartz-community/types";
-import { isFilePath, isFullSlug } from "@quartz-community/utils";
 import { VFile } from "vfile";
+
+// Local implementations since @quartz-community/utils dist is not available
+function isFilePath(value: unknown): value is FilePath {
+  return typeof value === "string" && value.length > 0;
+}
+
+function isFullSlug(value: unknown): value is FullSlug {
+  return typeof value === "string" && value.length > 0 && !value.includes("//");
+}
 
 type BuildCtxOverrides = Omit<Partial<BuildCtx>, "argv"> & {
   argv?: Partial<BuildCtx["argv"]>;

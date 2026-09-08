@@ -423,7 +423,7 @@ function transformGfmAutolinkLiterals(tree) {
     { ignore: ["link", "linkReference"] }
   );
 }
-function findUrl(_, protocol, domain2, path3, match) {
+function findUrl(_2, protocol, domain2, path3, match) {
   let prefix = "";
   if (!previous(match)) {
     return false;
@@ -449,7 +449,7 @@ function findUrl(_, protocol, domain2, path3, match) {
   }
   return result;
 }
-function findEmail(_, atext, label, match) {
+function findEmail(_2, atext, label, match) {
   if (
     // Not an expected previous character.
     !previous(match, true) || // Label ends in not allowed character.
@@ -544,7 +544,7 @@ function exitFootnoteDefinition(token) {
 function footnoteReferencePeek() {
   return "[";
 }
-function footnoteReference(node2, _, state, info) {
+function footnoteReference(node2, _2, state, info) {
   const tracker = state.createTracker(info);
   let value = tracker.move("[^");
   const exit2 = state.enter("footnoteReference");
@@ -583,7 +583,7 @@ function gfmFootnoteToMarkdown(options) {
     // This is on by default already.
     unsafe: [{ character: "[", inConstruct: ["label", "phrasing", "reference"] }]
   };
-  function footnoteDefinition(node2, _, state, info) {
+  function footnoteDefinition(node2, _2, state, info) {
     const tracker = state.createTracker(info);
     let value = tracker.move("[^");
     const exit2 = state.enter("footnoteDefinition");
@@ -648,7 +648,7 @@ function enterStrikethrough(token) {
 function exitStrikethrough(token) {
   this.exit(token);
 }
-function handleDelete(node2, _, state, info) {
+function handleDelete(node2, _2, state, info) {
   const tracker = state.createTracker(info);
   const exit2 = state.enter("strikethrough");
   let value = tracker.move("~~");
@@ -807,7 +807,7 @@ function toAlignment(value) {
 }
 
 // node_modules/mdast-util-to-markdown/lib/handle/blockquote.js
-function blockquote(node2, _, state, info) {
+function blockquote(node2, _2, state, info) {
   const exit2 = state.enter("blockquote");
   const tracker = state.createTracker(info);
   tracker.move("> ");
@@ -819,7 +819,7 @@ function blockquote(node2, _, state, info) {
   exit2();
   return value;
 }
-function map(line, _, blank) {
+function map(line, _2, blank) {
   return ">" + (blank ? "" : " ") + line;
 }
 
@@ -844,7 +844,7 @@ function listInScope(stack, list2, none) {
 }
 
 // node_modules/mdast-util-to-markdown/lib/handle/break.js
-function hardBreak(_, _1, state, info) {
+function hardBreak(_2, _1, state, info) {
   let index = -1;
   while (++index < state.unsafe.length) {
     if (state.unsafe[index].character === "\n" && patternInScope(state.stack, state.unsafe[index])) {
@@ -900,7 +900,7 @@ function checkFence(state) {
 }
 
 // node_modules/mdast-util-to-markdown/lib/handle/code.js
-function code(node2, _, state, info) {
+function code(node2, _2, state, info) {
   const marker = checkFence(state);
   const raw = node2.value || "";
   const suffix = marker === "`" ? "GraveAccent" : "Tilde";
@@ -947,7 +947,7 @@ function code(node2, _, state, info) {
   exit2();
   return value;
 }
-function map2(line, _, blank) {
+function map2(line, _2, blank) {
   return (blank ? "" : "    ") + line;
 }
 
@@ -963,7 +963,7 @@ function checkQuote(state) {
 }
 
 // node_modules/mdast-util-to-markdown/lib/handle/definition.js
-function definition(node2, _, state, info) {
+function definition(node2, _2, state, info) {
   const quote = checkQuote(state);
   const suffix = quote === '"' ? "Quote" : "Apostrophe";
   const exit2 = state.enter("definition");
@@ -1088,7 +1088,7 @@ function encodeInfo(outside, inside, marker) {
 
 // node_modules/mdast-util-to-markdown/lib/handle/emphasis.js
 emphasis.peek = emphasisPeek;
-function emphasis(node2, _, state, info) {
+function emphasis(node2, _2, state, info) {
   const marker = checkEmphasis(state);
   const exit2 = state.enter("emphasis");
   const tracker = state.createTracker(info);
@@ -1122,7 +1122,7 @@ function emphasis(node2, _, state, info) {
   };
   return before + between + after;
 }
-function emphasisPeek(_, _1, state) {
+function emphasisPeek(_2, _1, state) {
   return state.options.emphasis || "*";
 }
 
@@ -1200,7 +1200,7 @@ function formatHeadingAsSetext(node2, state) {
 }
 
 // node_modules/mdast-util-to-markdown/lib/handle/heading.js
-function heading(node2, _, state, info) {
+function heading(node2, _2, state, info) {
   const rank = Math.max(Math.min(6, node2.depth || 1), 1);
   const tracker = state.createTracker(info);
   if (formatHeadingAsSetext(node2, state)) {
@@ -1252,7 +1252,7 @@ function htmlPeek() {
 
 // node_modules/mdast-util-to-markdown/lib/handle/image.js
 image.peek = imagePeek;
-function image(node2, _, state, info) {
+function image(node2, _2, state, info) {
   const quote = checkQuote(state);
   const suffix = quote === '"' ? "Quote" : "Apostrophe";
   const exit2 = state.enter("image");
@@ -1309,7 +1309,7 @@ function imagePeek() {
 
 // node_modules/mdast-util-to-markdown/lib/handle/image-reference.js
 imageReference.peek = imageReferencePeek;
-function imageReference(node2, _, state, info) {
+function imageReference(node2, _2, state, info) {
   const type = node2.referenceType;
   const exit2 = state.enter("imageReference");
   let subexit = state.enter("label");
@@ -1348,7 +1348,7 @@ function imageReferencePeek() {
 
 // node_modules/mdast-util-to-markdown/lib/handle/inline-code.js
 inlineCode.peek = inlineCodePeek;
-function inlineCode(node2, _, state) {
+function inlineCode(node2, _2, state) {
   let value = node2.value || "";
   let sequence = "`";
   let index = -1;
@@ -1394,7 +1394,7 @@ function formatLinkAsAutolink(node2, state) {
 
 // node_modules/mdast-util-to-markdown/lib/handle/link.js
 link.peek = linkPeek;
-function link(node2, _, state, info) {
+function link(node2, _2, state, info) {
   const quote = checkQuote(state);
   const suffix = quote === '"' ? "Quote" : "Apostrophe";
   const tracker = state.createTracker(info);
@@ -1468,13 +1468,13 @@ function link(node2, _, state, info) {
   exit2();
   return value;
 }
-function linkPeek(node2, _, state) {
+function linkPeek(node2, _2, state) {
   return formatLinkAsAutolink(node2, state) ? "<" : "[";
 }
 
 // node_modules/mdast-util-to-markdown/lib/handle/link-reference.js
 linkReference.peek = linkReferencePeek;
-function linkReference(node2, _, state, info) {
+function linkReference(node2, _2, state, info) {
   const type = node2.referenceType;
   const exit2 = state.enter("linkReference");
   let subexit = state.enter("label");
@@ -1645,7 +1645,7 @@ function listItem(node2, parent, state, info) {
 }
 
 // node_modules/mdast-util-to-markdown/lib/handle/paragraph.js
-function paragraph(node2, _, state, info) {
+function paragraph(node2, _2, state, info) {
   const exit2 = state.enter("paragraph");
   const subexit = state.enter("phrasing");
   const value = state.containerPhrasing(node2, info);
@@ -1683,7 +1683,7 @@ var phrasing = (
 );
 
 // node_modules/mdast-util-to-markdown/lib/handle/root.js
-function root(node2, _, state, info) {
+function root(node2, _2, state, info) {
   const hasPhrasing = node2.children.some(function(d2) {
     return phrasing(d2);
   });
@@ -1704,7 +1704,7 @@ function checkStrong(state) {
 
 // node_modules/mdast-util-to-markdown/lib/handle/strong.js
 strong.peek = strongPeek;
-function strong(node2, _, state, info) {
+function strong(node2, _2, state, info) {
   const marker = checkStrong(state);
   const exit2 = state.enter("strong");
   const tracker = state.createTracker(info);
@@ -1738,12 +1738,12 @@ function strong(node2, _, state, info) {
   };
   return before + between + after;
 }
-function strongPeek(_, _1, state) {
+function strongPeek(_2, _1, state) {
   return state.options.strong || "*";
 }
 
 // node_modules/mdast-util-to-markdown/lib/handle/text.js
-function text(node2, _, state, info) {
+function text(node2, _2, state, info) {
   return state.safe(node2.value, info);
 }
 
@@ -1759,7 +1759,7 @@ function checkRuleRepetition(state) {
 }
 
 // node_modules/mdast-util-to-markdown/lib/handle/thematic-break.js
-function thematicBreak(_, _1, state) {
+function thematicBreak(_2, _1, state) {
   const value = (checkRule(state) + (state.options.ruleSpaces ? " " : "")).repeat(checkRuleRepetition(state));
   return state.options.ruleSpaces ? value.slice(0, -1) : value;
 }
@@ -1878,15 +1878,15 @@ function gfmTableToMarkdown(options) {
       tableRow: handleTableRow
     }
   };
-  function handleTable(node2, _, state, info) {
+  function handleTable(node2, _2, state, info) {
     return serializeData(handleTableAsData(node2, state, info), node2.align);
   }
-  function handleTableRow(node2, _, state, info) {
+  function handleTableRow(node2, _2, state, info) {
     const row = handleTableRowAsData(node2, state, info);
     const value = serializeData([row]);
     return value.slice(0, value.indexOf("\n"));
   }
-  function handleTableCell(node2, _, state, info) {
+  function handleTableCell(node2, _2, state, info) {
     const exit2 = state.enter("tableCell");
     const subexit = state.enter("phrasing");
     const value = state.containerPhrasing(node2, {
@@ -2900,8 +2900,8 @@ var EditMap = class {
    * @returns {undefined}
    */
   consume(events) {
-    this.map.sort(function(a2, b) {
-      return a2[0] - b[0];
+    this.map.sort(function(a2, b2) {
+      return a2[0] - b2[0];
     });
     if (this.map.length === 0) {
       return;
@@ -3324,8 +3324,8 @@ function flushCell(map3, context, range, rowKind, rowEnd, previousCell) {
       start[1].contentType = "text";
       if (range[3] > range[2] + 1) {
         const a2 = range[2] + 1;
-        const b = range[3] - range[2] - 1;
-        map3.add(a2, b, []);
+        const b2 = range[3] - range[2] - 1;
+        map3.add(a2, b2, []);
       }
     }
     map3.add(range[3] + 1, 0, [["exit", valueToken, context]]);
@@ -3730,7 +3730,7 @@ var ExampleEmitter = (userOptions) => {
   };
 };
 
-// node_modules/@quartz-community/utils/dist/lang.js
+// src/util/lang.ts
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -3742,13 +3742,13 @@ var example_default = ".example-component {\n  padding: 8px 16px;\n  background:
 var example_inline_default = 'function l(){let e=window.location.pathname;return e.startsWith("/")&&(e=e.slice(1)),e.endsWith("/")&&(e=e.slice(0,-1)),e||"index"}function r(){let e=document.querySelectorAll(".example-component");if(e.length===0)return;let t=[];function o(n){(n.ctrlKey||n.metaKey)&&n.shiftKey&&n.key.toLowerCase()==="e"&&(n.preventDefault(),console.log("[ExampleComponent] Keyboard shortcut triggered!"))}document.addEventListener("keydown",o),t.push(()=>document.removeEventListener("keydown",o));for(let n of e){let i=()=>{console.log("[ExampleComponent] Clicked!")};n.addEventListener("click",i),t.push(()=>n.removeEventListener("click",i))}typeof window<"u"&&window.addCleanup&&window.addCleanup(()=>{t.forEach(n=>n())}),console.log("[ExampleComponent] Initialized with",e.length,"component(s)")}document.addEventListener("nav",e=>{let t=e.detail?.url||l();console.log("[ExampleComponent] Navigation to:",t),r()});document.addEventListener("render",()=>{console.log("[ExampleComponent] Render event - re-initializing"),r()});document.addEventListener("prenav",()=>{let e=document.querySelector(".example-component");e&&sessionStorage.setItem("exampleScrollTop",e.scrollTop?.toString()||"0")});\n';
 var l;
 l = { __e: function(n2, l2, u3, t2) {
-  for (var i2, o2, r2; l2 = l2.__; ) if ((i2 = l2.__c) && !i2.__) try {
-    if ((o2 = i2.constructor) && null != o2.getDerivedStateFromError && (i2.setState(o2.getDerivedStateFromError(n2)), r2 = i2.__d), null != i2.componentDidCatch && (i2.componentDidCatch(n2, t2 || {}), r2 = i2.__d), r2) return i2.__E = i2;
+  for (var i2, r2, o2; l2 = l2.__; ) if ((i2 = l2.__c) && !i2.__) try {
+    if ((r2 = i2.constructor) && null != r2.getDerivedStateFromError && (i2.setState(r2.getDerivedStateFromError(n2)), o2 = i2.__d), null != i2.componentDidCatch && (i2.componentDidCatch(n2, t2 || {}), o2 = i2.__d), o2) return i2.__E = i2;
   } catch (l3) {
     n2 = l3;
   }
   throw n2;
-} }, "function" == typeof Promise ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout;
+} }, "function" == typeof Promise ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, Math.random().toString(8);
 
 // node_modules/preact/jsx-runtime/dist/jsxRuntime.mjs
 var f2 = 0;
@@ -3774,6 +3774,39 @@ var ExampleComponent_default = ((opts) => {
   return Component;
 });
 
-export { ExampleComponent_default as ExampleComponent, ExampleEmitter, ExampleFilter, ExampleTransformer };
+// src/components/styles/stacked.scss
+var stacked_default = '#andy-container {\n  display: none;\n  pointer-events: none;\n  z-index: 90;\n}\n#andy-container.active {\n  display: block;\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n}\n\nbody.has-andy-left .page,\nbody.has-andy-right .page {\n  transition: padding 0.2s ease;\n}\n\nbody.has-andy-left .page {\n  padding-left: 40px;\n}\n\nbody.has-andy-right .page {\n  padding-right: 40px;\n}\n\n.andy-binder-strip {\n  pointer-events: auto;\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  display: flex;\n  flex-direction: column;\n  z-index: 100;\n  width: 40px;\n}\n\n.andy-binder-strip-left {\n  left: 0;\n}\n\n.andy-binder-strip-right {\n  right: 0;\n}\n\n.andy-binder-tab {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n  gap: 4px;\n  padding: 8px 0;\n  cursor: pointer;\n  background: var(--lightgray);\n  border: 1px solid var(--lightgray);\n  transition: background 0.15s ease, transform 0.15s ease, border-color 0.15s ease;\n  width: 100%;\n  flex: 1;\n  position: relative;\n  writing-mode: vertical-lr;\n  overflow: hidden;\n}\n\n.andy-binder-tab:hover {\n  background: var(--light);\n}\n\n.andy-binder-tab-active {\n  background: var(--light);\n  z-index: 101;\n  cursor: default;\n}\n\n.andy-binder-tab-active.andy-binder-tab-left {\n  border-right: none;\n  border-left: 3px solid var(--secondary);\n  border-radius: 6px 0 0 6px;\n}\n\n.andy-binder-tab-active.andy-binder-tab-right {\n  border-left: none;\n  border-right: 3px solid var(--secondary);\n  border-radius: 0 6px 6px 0;\n}\n\n.andy-binder-tab:not(.andy-binder-tab-active) {\n  color: var(--gray);\n}\n\n.andy-binder-tab:not(.andy-binder-tab-active).andy-binder-tab-left {\n  border-radius: 6px 0 0 6px;\n  border-right: 2px solid var(--secondary);\n  border-left: 1px solid var(--lightgray);\n}\n\n.andy-binder-tab:not(.andy-binder-tab-active).andy-binder-tab-left:hover {\n  transform: translateX(4px);\n}\n\n.andy-binder-tab:not(.andy-binder-tab-active).andy-binder-tab-right {\n  border-radius: 0 6px 6px 0;\n  border-left: 2px solid var(--secondary);\n  border-right: 1px solid var(--lightgray);\n}\n\n.andy-binder-tab:not(.andy-binder-tab-active).andy-binder-tab-right:hover {\n  transform: translateX(-4px);\n}\n\n.andy-binder-label {\n  font-size: 1rem;\n  line-height: 1.2;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  color: var(--darkgray);\n  user-select: none;\n  transform: rotate(180deg);\n  text-align: left;\n}\n\n.andy-binder-tab-active .andy-binder-label {\n  font-weight: bold;\n  color: var(--dark);\n}\n\n.andy-binder-close {\n  appearance: none;\n  background: none;\n  border: none;\n  cursor: pointer;\n  font-size: 1rem;\n  line-height: 1;\n  color: var(--gray);\n  padding: 2px;\n  flex-shrink: 0;\n  opacity: 0;\n  transition: opacity 0.15s ease, color 0.15s ease;\n  transform: rotate(180deg);\n}\n\n.andy-binder-close:hover {\n  color: var(--dark);\n  background: rgba(0, 0, 0, 0.05);\n  border-radius: 4px;\n}\n\n.andy-binder-tab:hover .andy-binder-close {\n  opacity: 1;\n}\n\n.andy-pane-track {\n  pointer-events: auto;\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  display: flex;\n  flex-direction: row;\n  overflow-x: auto;\n  overflow-y: hidden;\n  scroll-behavior: smooth;\n  scroll-snap-type: x mandatory;\n  gap: 0;\n  z-index: 95;\n  scrollbar-width: none;\n}\n.andy-pane-track::-webkit-scrollbar {\n  display: none;\n}\n\n.andy-pane {\n  flex: 0 0 auto;\n  height: 100%;\n  scroll-snap-align: start;\n  position: relative;\n  background: var(--light);\n  border-left: 1px solid var(--lightgray);\n  overflow: hidden;\n  transition: opacity 0.2s ease;\n}\n.andy-pane:first-child {\n  border-left: none;\n}\n\n.andy-pane-active {\n  z-index: 96;\n}\n\n.andy-pane:not(.andy-pane-active) {\n  opacity: 0.7;\n}\n.andy-pane:not(.andy-pane-active):hover {\n  opacity: 0.9;\n}\n\n.andy-pane-content {\n  width: 100%;\n  height: 100%;\n  overflow-y: auto;\n  padding: 2rem;\n  box-sizing: border-box;\n}\n.andy-pane-content .page {\n  max-width: none;\n  margin: 0;\n  padding: 0;\n}\n.andy-pane-content {\n  color: var(--dark);\n  background: var(--light);\n}\n\n.andy-pane-spine {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  width: 32px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  writing-mode: vertical-lr;\n  text-orientation: mixed;\n  transform: rotate(180deg);\n  font-size: 0.85rem;\n  font-weight: 600;\n  color: var(--secondary);\n  background: var(--light);\n  border-right: 2px solid var(--secondary);\n  opacity: 0;\n  transition: opacity 0.2s ease;\n  pointer-events: none;\n  user-select: none;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.andy-pane:not(.andy-pane-active) .andy-pane-spine {\n  opacity: 1;\n}\n\n.andy-pane-loading {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 100%;\n  height: 100%;\n  color: var(--gray);\n  font-size: 0.9rem;\n}\n\n.andy-pane-loading::after {\n  content: "";\n  width: 24px;\n  height: 24px;\n  border: 3px solid var(--lightgray);\n  border-top-color: var(--secondary);\n  border-radius: 50%;\n  animation: andy-spin 0.8s linear infinite;\n  margin-left: 8px;\n}\n\n@keyframes andy-spin {\n  to {\n    transform: rotate(360deg);\n  }\n}\n@keyframes andy-slide-in {\n  from {\n    transform: translateX(100%);\n    opacity: 0;\n  }\n  to {\n    transform: translateX(0);\n    opacity: 1;\n  }\n}\n.andy-pane-animate {\n  animation: andy-slide-in 0.3s ease-out;\n}';
+
+// src/components/scripts/stacked.inline.ts
+var stacked_inline_default = 'var h="andy-mode-state";function b(){let e=window.location.pathname;return e.startsWith("/")&&(e=e.slice(1)),e.endsWith("/")&&(e=e.slice(0,-1)),e||"index"}function L(){return document.querySelector("h1")?.textContent?.trim()||document.title||b()}function E(){return document.body?.dataset?.basepath??""}function I(e){let n=E(),i=e.startsWith("/")?e:"/"+e;return n+i}function u(){try{let e=sessionStorage.getItem(h);if(e){let n=JSON.parse(e);if(Array.isArray(n.panes)&&typeof n.activeIndex=="number")return n}}catch{}return{panes:[],activeIndex:-1}}function c(e){try{sessionStorage.setItem(h,JSON.stringify(e))}catch{}}function f(e){return{paneWidth:parseInt(e.dataset.paneWidth||"650",10),maxPanes:parseInt(e.dataset.maxPanes||"5",10),mobileBreakpoint:parseInt(e.dataset.mobileBreakpoint||"800",10),animate:e.dataset.animate!=="false",showSpines:e.dataset.showSpines!=="false"}}async function x(e){try{let n=I(e),i=await fetch(n);if(!i.ok)return null;let a=await i.text(),o=new DOMParser().parseFromString(a,"text/html"),s=o.querySelector("#quartz-body");if(s)return s.innerHTML;let d=o.querySelector("article")||o.querySelector("main");return d?d.innerHTML:null}catch{return null}}function p(e,n,i){e.querySelectorAll(".andy-binder-strip").forEach(o=>o.remove());let a=n.panes.slice(0,n.activeIndex),t=n.panes.slice(n.activeIndex+1);if(a.length>0){let o=document.createElement("div");o.className="andy-binder-strip andy-binder-strip-left";for(let s=0;s<a.length;s++)o.appendChild(v(a[s],s,"left",n,i));e.appendChild(o)}if(t.length>0){let o=document.createElement("div");o.className="andy-binder-strip andy-binder-strip-right";for(let s=0;s<t.length;s++){let d=n.activeIndex+1+s;o.appendChild(v(t[s],d,"right",n,i))}e.appendChild(o)}document.body.classList.toggle("has-andy-left",a.length>0),document.body.classList.toggle("has-andy-right",t.length>0)}function v(e,n,i,a,t){let o=document.createElement("div");o.className=`andy-binder-tab andy-binder-tab-${i}`,o.dataset.index=String(n),n===a.activeIndex&&o.classList.add("andy-binder-tab-active");let s=document.createElement("span");if(s.className="andy-binder-label",s.textContent=e.title,o.appendChild(s),a.panes.length>=2){let d=document.createElement("button");d.className="andy-binder-close",d.textContent="\\xD7",d.setAttribute("aria-label","Close "+e.title),d.addEventListener("click",r=>{r.stopPropagation(),A(n)}),o.appendChild(d)}return o.addEventListener("click",()=>{w(n)}),o}function m(e,n,i){if(e.querySelectorAll(".andy-pane-track").forEach(t=>t.remove()),n.panes.length<=1){e.classList.remove("active");return}e.classList.add("active");let a=document.createElement("div");a.className="andy-pane-track";for(let t=0;t<n.panes.length;t++){let o=n.panes[t],s=document.createElement("div");if(s.className="andy-pane",s.dataset.index=String(t),t===n.activeIndex&&s.classList.add("andy-pane-active"),s.style.width=i.paneWidth+"px",i.showSpines){let r=document.createElement("div");r.className="andy-pane-spine",r.textContent=o.title,s.appendChild(r)}let d=document.createElement("div");if(d.className="andy-pane-content",o.contentHTML)d.innerHTML=o.contentHTML;else{let r=document.createElement("div");r.className="andy-pane-loading",r.textContent="Loading\\u2026",d.appendChild(r),x(o.slug).then(g=>{g?(o.contentHTML=g,d.innerHTML=g,c(n)):r.textContent="Failed to load"})}s.appendChild(d),i.animate&&t===n.activeIndex&&s.classList.add("andy-pane-animate"),a.appendChild(s)}e.appendChild(a),S(a,n.activeIndex)}function S(e,n){let a=e.querySelectorAll(".andy-pane")[n];a&&a.scrollIntoView({behavior:"smooth",block:"nearest",inline:"start"})}async function C(e,n){let i=document.getElementById("andy-container");if(!i)return;let a=f(i),t=u();if(t.activeIndex>=0&&t.panes[t.activeIndex]?.slug===e){t.panes[t.activeIndex].title=n,c(t),p(i,t,a);return}let o=t.panes.findIndex(s=>s.slug===e);if(o>=0){let[s]=t.panes.splice(o,1),d=t.activeIndex+1;t.panes.splice(d,0,s),t.activeIndex=d}else{let s=t.activeIndex+1;for(t.panes.splice(s,0,{slug:e,title:n,contentHTML:null}),t.activeIndex=s;t.panes.length>a.maxPanes;)t.activeIndex>0?(t.panes.shift(),t.activeIndex--):t.panes.pop()}if(c(t),!t.panes[t.activeIndex].contentHTML){let s=await x(e);s&&(t.panes[t.activeIndex].contentHTML=s,c(t))}p(i,t,a),m(i,t,a)}function A(e){let n=document.getElementById("andy-container");if(!n)return;let i=f(n),a=u();if(a.panes.length<2)return;let t=e===a.activeIndex;a.panes.splice(e,1),t?(a.activeIndex=Math.min(e,a.panes.length-1),c(a),w(a.activeIndex)):(e<a.activeIndex&&a.activeIndex--,c(a),p(n,a,i),m(n,a,i))}function w(e){let n=u();if(e<0||e>=n.panes.length)return;let i=n.panes[e];if(!i)return;n.activeIndex=e,c(n);let a=new URL(I(i.slug),window.location.origin);window.spaNavigate?window.spaNavigate(a,!1):window.location.href=a.toString()}function T(){let e=document.getElementById("andy-container");if(!e)return;let n=f(e),i=u();window.innerWidth<n.mobileBreakpoint?(e.style.display="none",document.body.classList.remove("has-andy-left","has-andy-right")):(e.style.display="",i.panes.length>1&&(p(e,i,n),m(e,i,n)))}var y=null;function P(){let e=document.getElementById("andy-container");if(!e)return;let n=f(e),i=b(),a=L();if(i===y){let t=u();t.panes.length>1&&(p(e,t,n),m(e,t,n));return}y=i,C(i,a)}document.addEventListener("nav",()=>{P()});document.addEventListener("render",()=>{let e=document.getElementById("andy-container");if(!e)return;let n=f(e),i=u();i.panes.length>1&&(p(e,i,n),m(e,i,n))});var l=null;function M(){l||(l=()=>T(),window.addEventListener("resize",l),window.addCleanup&&window.addCleanup(()=>{l&&(window.removeEventListener("resize",l),l=null)}))}M();\n';
+
+// src/components/StackedPages.tsx
+var StackedPages_default = ((opts) => {
+  const {
+    paneWidth = 650,
+    maxPanes = 5,
+    mobileBreakpoint = 800,
+    animate = true,
+    showSpines = true
+  } = opts ?? {};
+  const Component = (_props) => {
+    return /* @__PURE__ */ u2(
+      "div",
+      {
+        id: "andy-container",
+        "data-pane-width": paneWidth,
+        "data-max-panes": maxPanes,
+        "data-mobile-breakpoint": mobileBreakpoint,
+        "data-animate": animate,
+        "data-show-spines": showSpines
+      }
+    );
+  };
+  Component.css = stacked_default;
+  Component.afterDOMLoaded = stacked_inline_default;
+  return Component;
+});
+
+export { ExampleComponent_default as ExampleComponent, ExampleEmitter, ExampleFilter, ExampleTransformer, StackedPages_default as StackedPages };
 //# sourceMappingURL=index.js.map
 //# sourceMappingURL=index.js.map

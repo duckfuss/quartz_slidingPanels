@@ -60,3 +60,16 @@ export interface ExampleComponentOptions {
   /** CSS class name to apply */
   className?: string;
 }
+
+export interface AndyModeOptions {
+  /** Width of each pane in px. Default: 650 */
+  paneWidth: number;
+  /** Maximum number of open panes. Oldest are evicted. Default: 5 */
+  maxPanes: number;
+  /** Hide UI below this viewport width (px). Default: 800 */
+  mobileBreakpoint: number;
+  /** Enable slide/scroll animations. Default: true */
+  animate: boolean;
+  /** Show spine labels on binder tabs. Default: true */
+  showSpines: boolean;
+}

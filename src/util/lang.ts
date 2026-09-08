@@ -1,1 +1,3 @@
-export { classNames } from "@quartz-community/utils/lang";
+export function classNames(...classes: (string | false | null | undefined)[]): string {
+  return classes.filter(Boolean).join(" ");
+}

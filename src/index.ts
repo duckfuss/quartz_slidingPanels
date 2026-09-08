@@ -2,11 +2,13 @@ export { ExampleTransformer } from "./transformer";
 export { ExampleFilter } from "./filter";
 export { ExampleEmitter } from "./emitter";
 export { default as ExampleComponent } from "./components/ExampleComponent";
+export { default as StackedPages } from "./components/StackedPages";
 
 export type {
   ExampleTransformerOptions,
   ExampleFilterOptions,
   ExampleEmitterOptions,
+  AndyModeOptions,
 } from "./types";
 
 export type { ExampleComponentOptions } from "./components/ExampleComponent";

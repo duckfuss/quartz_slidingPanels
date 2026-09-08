@@ -1,0 +1,305 @@
+// ============================================================================
+// Andy Mode (Sliding Panes) — Merged binder tabs + horizontal content panes
+// ============================================================================
+
+// --- Container ---
+#andy-container {
+  display: none;
+  pointer-events: none;
+  z-index: 90;
+
+  &.active {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+// --- Page padding when binder strips are visible ---
+body.has-andy-left .page,
+body.has-andy-right .page {
+  transition: padding 0.2s ease;
+}
+body.has-andy-left .page {
+  padding-left: 40px;
+}
+body.has-andy-right .page {
+  padding-right: 40px;
+}
+
+// --- Binder Tab Strips (vertical spines on edges) ---
+.andy-binder-strip {
+  pointer-events: auto;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  width: 40px;
+}
+
+.andy-binder-strip-left {
+  left: 0;
+}
+
+.andy-binder-strip-right {
+  right: 0;
+}
+
+.andy-binder-tab {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 0;
+  cursor: pointer;
+  background: var(--lightgray);
+  border: 1px solid var(--lightgray);
+  transition: background 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+  width: 100%;
+  flex: 1;
+  position: relative;
+  writing-mode: vertical-lr;
+  overflow: hidden;
+}
+
+.andy-binder-tab:hover {
+  background: var(--light);
+}
+
+.andy-binder-tab-active {
+  background: var(--light);
+  z-index: 101;
+  cursor: default;
+}
+
+.andy-binder-tab-active.andy-binder-tab-left {
+  border-right: none;
+  border-left: 3px solid var(--secondary);
+  border-radius: 6px 0 0 6px;
+}
+
+.andy-binder-tab-active.andy-binder-tab-right {
+  border-left: none;
+  border-right: 3px solid var(--secondary);
+  border-radius: 0 6px 6px 0;
+}
+
+.andy-binder-tab:not(.andy-binder-tab-active) {
+  color: var(--gray);
+}
+
+.andy-binder-tab:not(.andy-binder-tab-active).andy-binder-tab-left {
+  border-radius: 6px 0 0 6px;
+  border-right: 2px solid var(--secondary);
+  border-left: 1px solid var(--lightgray);
+}
+
+.andy-binder-tab:not(.andy-binder-tab-active).andy-binder-tab-left:hover {
+  transform: translateX(4px);
+}
+
+.andy-binder-tab:not(.andy-binder-tab-active).andy-binder-tab-right {
+  border-radius: 0 6px 6px 0;
+  border-left: 2px solid var(--secondary);
+  border-right: 1px solid var(--lightgray);
+}
+
+.andy-binder-tab:not(.andy-binder-tab-active).andy-binder-tab-right:hover {
+  transform: translateX(-4px);
+}
+
+.andy-binder-label {
+  font-size: 1rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--darkgray);
+  user-select: none;
+  transform: rotate(180deg);
+  text-align: left;
+}
+
+.andy-binder-tab-active .andy-binder-label {
+  font-weight: bold;
+  color: var(--dark);
+}
+
+.andy-binder-close {
+  appearance: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--gray);
+  padding: 2px;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.15s ease, color 0.15s ease;
+  transform: rotate(180deg);
+}
+
+.andy-binder-close:hover {
+  color: var(--dark);
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+.andy-binder-tab:hover .andy-binder-close {
+  opacity: 1;
+}
+
+// --- Horizontal Pane Track ---
+.andy-pane-track {
+  pointer-events: auto;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  gap: 0;
+  z-index: 95;
+
+  // Hide scrollbar but keep scroll functionality
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+// --- Individual Pane ---
+.andy-pane {
+  flex: 0 0 auto;
+  height: 100%;
+  scroll-snap-align: start;
+  position: relative;
+  background: var(--light);
+  border-left: 1px solid var(--lightgray);
+  overflow: hidden;
+  transition: opacity 0.2s ease;
+
+  &:first-child {
+    border-left: none;
+  }
+}
+
+.andy-pane-active {
+  z-index: 96;
+}
+
+// Dim inactive panes
+.andy-pane:not(.andy-pane-active) {
+  opacity: 0.7;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+// --- Pane Content ---
+.andy-pane-content {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 2rem;
+  box-sizing: border-box;
+
+  // Style the injected page content to look like a normal page
+  .page {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  // Ensure content within panes respects theme colors
+  color: var(--dark);
+  background: var(--light);
+}
+
+// --- Pane Spine (vertical title on inactive panes) ---
+.andy-pane-spine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  writing-mode: vertical-lr;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--secondary);
+  background: var(--light);
+  border-right: 2px solid var(--secondary);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+  user-select: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.andy-pane:not(.andy-pane-active) .andy-pane-spine {
+  opacity: 1;
+}
+
+// --- Loading Skeleton ---
+.andy-pane-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--gray);
+  font-size: 0.9rem;
+}
+
+.andy-pane-loading::after {
+  content: "";
+  width: 24px;
+  height: 24px;
+  border: 3px solid var(--lightgray);
+  border-top-color: var(--secondary);
+  border-radius: 50%;
+  animation: andy-spin 0.8s linear infinite;
+  margin-left: 8px;
+}
+
+@keyframes andy-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// --- Slide-in Animation ---
+@keyframes andy-slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.andy-pane-animate {
+  animation: andy-slide-in 0.3s ease-out;
+}
