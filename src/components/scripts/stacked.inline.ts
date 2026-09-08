@@ -155,6 +155,9 @@ function renderBinderStrips(
   // Toggle body classes for page padding
   document.body.classList.toggle("has-andy-left", leftPanes.length > 0);
   document.body.classList.toggle("has-andy-right", rightPanes.length > 0);
+
+  // Lock body scroll when multiple panes are open
+  document.documentElement.classList.toggle("andy-active", state.panes.length > 1);
 }
 
 function createBinderTab(
@@ -404,6 +407,7 @@ function handleResize(): void {
   if (window.innerWidth < config.mobileBreakpoint) {
     container.style.display = "none";
     document.body.classList.remove("has-andy-left", "has-andy-right");
+    document.documentElement.classList.remove("andy-active");
   } else {
     container.style.display = "";
     if (state.panes.length > 1) {

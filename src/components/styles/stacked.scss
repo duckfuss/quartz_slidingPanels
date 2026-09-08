@@ -18,6 +18,12 @@
   }
 }
 
+// --- Lock body scroll when Andy Mode is active ---
+html.andy-active,
+html.andy-active body {
+  overflow: hidden !important;
+}
+
 // --- Page padding when binder strips are visible ---
 body.has-andy-left .page,
 body.has-andy-right .page {
@@ -200,13 +206,10 @@ body.has-andy-right .page {
   z-index: 96;
 }
 
-// Dim inactive panes
+// Inactive panes: fully opaque, subtle border to distinguish
 .andy-pane:not(.andy-pane-active) {
-  opacity: 0.7;
-
-  &:hover {
-    opacity: 0.9;
-  }
+  opacity: 1;
+  border-right: 2px solid var(--lightgray);
 }
 
 // --- Pane Content ---
