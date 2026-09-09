@@ -9,23 +9,22 @@ import style from "./styles/stacked.scss";
 import script from "./scripts/stacked.inline.ts";
 
 export default ((opts?: Partial<AndyModeOptions>) => {
-  const {
-    paneWidth = 650,
-    maxPanes = 5,
-    mobileBreakpoint = 800,
-    animate = true,
-    showSpines = true,
-  } = opts ?? {};
+  const config = {
+    paneWidth: opts?.paneWidth ?? 650,
+    maxPanes: opts?.maxPanes ?? 5,
+    mobileBreakpoint: opts?.mobileBreakpoint ?? 800,
+    animate: opts?.animate ?? true,
+  };
 
   const Component: QuartzComponent = (_props: QuartzComponentProps) => {
     return (
       <div
-        id="andy-container"
-        data-pane-width={paneWidth}
-        data-max-panes={maxPanes}
-        data-mobile-breakpoint={mobileBreakpoint}
-        data-animate={animate}
-        data-show-spines={showSpines}
+        id="andy-mode-slot"
+        data-pane-width={config.paneWidth}
+        data-max-panes={config.maxPanes}
+        data-mobile-breakpoint={config.mobileBreakpoint}
+        data-animate={config.animate}
+        style="display:none"
       />
     );
   };

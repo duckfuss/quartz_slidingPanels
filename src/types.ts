@@ -70,6 +70,4 @@ export interface AndyModeOptions {
   mobileBreakpoint: number;
   /** Enable slide/scroll animations. Default: true */
   animate: boolean;
-  /** Show spine labels on binder tabs. Default: true */
-  showSpines: boolean;
 }
