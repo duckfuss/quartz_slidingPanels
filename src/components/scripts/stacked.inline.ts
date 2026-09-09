@@ -160,7 +160,7 @@ function ensureToggleButton(): void {
   btn.id = "andy-mode-toggle";
   btn.className = "andy-mode-toggle";
   btn.setAttribute("aria-label", "Toggle Andy Mode");
-  btn.title = "Toggle Andy Mode (sliding panes)";
+  btn.title = "Sliding Panes";
 
   // Horizontal panels icon
   btn.innerHTML =
