@@ -499,6 +499,7 @@ function navigateToPane(index: number): void {
 function activateAndyMode(): void {
   console.log("[AndyDebug] activateAndyMode called");
   const container = ensureContainer();
+  setupPaneCallouts();
   const config = readConfig();
   const slug = getCurrentSlug();
   const title = getPageTitle();
@@ -526,6 +527,7 @@ let lastSlug: string | null = null;
 function onNav(): void {
   ensureToggleButton();
   setupResize();
+  setupPaneCallouts();
 
   if (!isEnabled()) {
     console.log("[AndyDebug] onNav: disabled, deactivate");
@@ -572,6 +574,28 @@ function setupResize(): void {
 
   window.addEventListener("resize", handler);
   resizeCleanup = () => window.removeEventListener("resize", handler);
+}
+
+// --- Callout fold/unfold for dynamically injected pane content ---
+
+function setupPaneCallouts(): void {
+  const container = document.getElementById("andy-container");
+  if (!container) return;
+  if (container.dataset.calloutListener === "true") return;
+
+  container.addEventListener("click", (e) => {
+    const target = e.target as HTMLElement;
+    const title = target.closest(".callout-title");
+    if (!title) return;
+    const callout = title.closest(".callout");
+    if (!callout || !callout.classList.contains("is-collapsible")) return;
+    callout.classList.toggle("is-collapsed");
+    const content = callout.querySelector(".callout-content") as HTMLElement;
+    if (content) {
+      content.style.gridTemplateRows = callout.classList.contains("is-collapsed") ? "0fr" : "1fr";
+    }
+  });
+  container.dataset.calloutListener = "true";
 }
 
 // --- Init ---
